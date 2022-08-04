@@ -409,9 +409,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bda9cff0072964ee18f421d814b140c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelPrefabs:
-  - {fileID: 7765958582692143852, guid: 745e6bccd322f4d588f6b3cd0d34c3df, type: 3}
-  - {fileID: 6346757721014470024, guid: 33701a2766a494c6c9c957cb971a6fd9, type: 3}
 --- !u!1 &6408489810725903879
 GameObject:
   m_ObjectHideFlags: 0

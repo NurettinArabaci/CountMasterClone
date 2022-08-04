@@ -51,14 +51,16 @@ public class EnemyAttack : MonoBehaviour
 
             enemyScript.circle.SetBool(AnimConst.enemyFinish, true);
 
-            Invoke(nameof(CanvasOff), 0.5f);
+            StartCoroutine(CanvasOff());
         }
     }
 
-    void CanvasOff()
+    IEnumerator CanvasOff()
     {
+        yield return new WaitForSeconds(0.5f);
         enemyScript.canvas.gameObject.SetActive(false);
     }
+   
 
     IEnumerator DeathPlayers(GameObject go)
     {

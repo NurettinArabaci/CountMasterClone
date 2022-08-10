@@ -30,13 +30,13 @@ public class ButtonController : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.GameOver += OpenRestartButton;
+        EventManager.OnGameOver += OpenRestartButton;
 
         EventManager.LevelCompleted += OpenNextButton;
     }
     private void OnDisable()
     {
-        EventManager.GameOver -= OpenRestartButton;
+        EventManager.OnGameOver -= OpenRestartButton;
 
         EventManager.LevelCompleted -= OpenNextButton;
     }
@@ -46,7 +46,7 @@ public class ButtonController : MonoBehaviour
         playBut.gameObject.SetActive(false);
         scoreParent.SetActive(true);
 
-        EventManager.PlayerMove();
+        EventManager.Fire_OnStartMovement();
     }
 
     void OpenRestartButton()

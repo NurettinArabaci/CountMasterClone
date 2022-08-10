@@ -12,7 +12,7 @@ public class StairCollider : MonoBehaviour
             BuildStair.stairId--;
             if (BuildStair.stairId<=0)
             {
-                EventManager.PlayerStop();
+                EventManager.Fire_OnStopMovement();
                 EventManager.NextLevel();
             }
             Player.forwardMove = false;

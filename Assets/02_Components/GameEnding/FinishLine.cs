@@ -9,7 +9,7 @@ public class FinishLine : MonoBehaviour
     {
         if (other.CompareTag(Tags.Player))
         {
-            EventManager.EnterFinishArea();
+            EventManager.Fire_OnFinishArea();
 
             ScoreIncrease();
 

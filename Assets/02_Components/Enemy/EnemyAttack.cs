@@ -47,18 +47,13 @@ public class EnemyAttack : MonoBehaviour
     {
         if (enemyScript.enemyCount <= 0)
         {
-            EventManager.PlayerMove();
+            EventManager.Fire_OnStartMovement();
 
             enemyScript.circle.SetBool(AnimConst.enemyFinish, true);
 
-            StartCoroutine(CanvasOff());
+            Destroy(parent.gameObject, 0.5f);
+            
         }
-    }
-
-    IEnumerator CanvasOff()
-    {
-        yield return new WaitForSeconds(0.5f);
-        enemyScript.canvas.gameObject.SetActive(false);
     }
    
 

@@ -17,14 +17,14 @@ public class PlayerChild : MonoBehaviour
     private void OnEnable()
     {
         dieFx.Pause(true);
-        EventManager.StartMovement += MovementChild;
-        EventManager.StopMovement += StopMoveChild;
+        EventManager.OnStartMovement += MovementChild;
+        EventManager.OnStopMovement += StopMoveChild;
     }
 
     private void OnDisable()
     {
-        EventManager.StartMovement -= MovementChild;
-        EventManager.StopMovement -= StopMoveChild;
+        EventManager.OnStartMovement -= MovementChild;
+        EventManager.OnStopMovement -= StopMoveChild;
     }
 
     void MovementChild()

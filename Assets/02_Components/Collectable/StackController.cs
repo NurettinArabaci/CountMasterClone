@@ -83,7 +83,7 @@ public class StackController : MonoBehaviour
             ObjectPooling.Instance.GetSpawnObject(Tags.PlayerChild, pos, Quaternion.identity);
 
 
-        EventManager.PlayerMove();
+        EventManager.Fire_OnStartMovement();
     }
 
     void VariableReferences()

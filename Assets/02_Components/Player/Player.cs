@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player instance { get; private set; }
+
     Transform mT;
     Vector3 pos;
 
@@ -19,24 +21,27 @@ public class Player : MonoBehaviour
 
     float mouseX = 0;
 
+
+
     private void Awake()
     {
+        instance = this;
         mT = transform;
         pos = mT.position;
         cam = Camera.main;
     }
     private void OnEnable()
     {
-        EventManager.StartMovement += Movement;
-        EventManager.StopMovement += StopMove;
-        EventManager.FinishArea += EnterFinishLine;
+        EventManager.OnStartMovement += OnStartMovement;
+        EventManager.OnStopMovement += OnStopMovement;
+        EventManager.OnFinishArea += OnFinishArea;
     }
 
     private void OnDisable()
     {
-        EventManager.StartMovement -= Movement;
-        EventManager.StopMovement -= StopMove;
-        EventManager.FinishArea -= EnterFinishLine;
+        EventManager.OnStartMovement -= OnStartMovement;
+        EventManager.OnStopMovement -= OnStopMovement;
+        EventManager.OnFinishArea -= OnFinishArea;
     }
 
     private void Start()
@@ -47,7 +52,7 @@ public class Player : MonoBehaviour
 
         limitX = 10;
 
-        EventManager.PlayerStop();
+        EventManager.Fire_OnStopMovement();
     }
 
     private void Update()
@@ -65,19 +70,19 @@ public class Player : MonoBehaviour
 
     }
 
-    void Movement()
+    void OnStartMovement()
     {
         speed = 15;
         xSpeed = 10; 
     }
 
-    void StopMove()
+    void OnStopMovement()
     {
         speed = 0;
         xSpeed = 0; 
     }
 
-    void EnterFinishLine()
+    void OnFinishArea()
     {
         xSpeed = 0;
         StartCoroutine(TweenMove());
@@ -87,13 +92,13 @@ public class Player : MonoBehaviour
     void SwerveMovement()
     {
         
-        pos += new Vector3(0, 0, speed * Time.deltaTime);
+        pos += Vector3.forward*speed * Time.deltaTime;
         
         if (Input.GetMouseButton(0))
         {
             mouseX = Input.GetAxis("Mouse X");
-           
-            pos += new Vector3(mouseX * xSpeed * Time.deltaTime * 10, 0, 0);
+
+            pos += Vector3.right * mouseX * xSpeed * Time.deltaTime * 10;
                
         }
 

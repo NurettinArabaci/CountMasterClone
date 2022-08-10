@@ -18,8 +18,8 @@ public class GameManager : MonoBehaviour
 
         if (StackController.playerChildAmount<=0)
         {
-            EventManager.OnGameOver();
-            EventManager.PlayerStop();
+            EventManager.Fire_OnGameOver();
+            EventManager.Fire_OnStopMovement();
 
         }
     }

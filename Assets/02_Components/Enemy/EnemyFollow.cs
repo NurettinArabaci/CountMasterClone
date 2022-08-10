@@ -12,7 +12,7 @@ public class EnemyFollow : MonoBehaviour
     private void Start()
     {
         enemyNav = GetComponent<NavMeshAgent>();
-        player = GameObject.FindGameObjectWithTag(Tags.Player);
+        player = Player.instance.gameObject;
     }
 
     void Update()
@@ -21,11 +21,11 @@ public class EnemyFollow : MonoBehaviour
         {
             enemyNav.destination = player.transform.position;
         }
-        else
+        /*else
         {
             player = GameObject.FindGameObjectWithTag(Tags.Player);
             return;
-        }
+        }*/
     }
 
    

@@ -31,8 +31,8 @@ public class Enemy : MonoBehaviour
 
         if (other.CompareTag(Tags.PlayerChild))
         {
-            Player.speed = 3;
-            Player.xSpeed = 2f;
+            Player.Instance.speed = 3;
+            Player.Instance.xSpeed = 2f;
             mColl.enabled = false;
             
             FollowPlayer();

@@ -2,45 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoSingleton<Player>
 {
-    public static Player instance { get; private set; }
-
     Transform mT;
     Vector3 pos;
 
-    Camera cam;
-
-    public static float speed = 0;
-    public static float xSpeed = 0f;
-    public static float limitX = 10f;
+    public float speed = 15;
+    public float xSpeed = 10f;
+    public float limitX = 10f;
 
     public static int playerChildCount = 1;
 
     public static bool forwardMove;
 
-    float mouseX = 0;
+    float mouseX;
 
 
 
-    private void Awake()
+    protected override void Awake()
     {
-        instance = this;
+        base.Awake();
         mT = transform;
         pos = mT.position;
-        cam = Camera.main;
     }
     private void OnEnable()
     {
-        EventManager.OnStartMovement += OnStartMovement;
-        EventManager.OnStopMovement += OnStopMovement;
         EventManager.OnFinishArea += OnFinishArea;
     }
 
     private void OnDisable()
     {
-        EventManager.OnStartMovement -= OnStartMovement;
-        EventManager.OnStopMovement -= OnStopMovement;
         EventManager.OnFinishArea -= OnFinishArea;
     }
 
@@ -50,36 +41,14 @@ public class Player : MonoBehaviour
 
         forwardMove = true;
 
-        limitX = 10;
-
         EventManager.Fire_OnStopMovement();
     }
 
     private void Update()
     {
+        if (GameManager.Instance.gameState != GameState.Play) return;
+
         SwerveMovement();
-    }
-
-    private void LateUpdate()
-    {
-        if (forwardMove)
-        {
-            cam.transform.position = new Vector3(pos.x * 0.3f, pos.y + 40, pos.z - 45);
-        }
-        else cam.transform.position += new Vector3(0, speed * Time.deltaTime*0.8f, speed * Time.deltaTime);
-
-    }
-
-    void OnStartMovement()
-    {
-        speed = 15;
-        xSpeed = 10; 
-    }
-
-    void OnStopMovement()
-    {
-        speed = 0;
-        xSpeed = 0; 
     }
 
     void OnFinishArea()

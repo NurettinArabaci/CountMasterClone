@@ -46,7 +46,7 @@ public class ButtonController : MonoBehaviour
         playBut.gameObject.SetActive(false);
         scoreParent.SetActive(true);
 
-        EventManager.Fire_OnStartMovement();
+        GameStateEvent.Fire_OnChangeGameState(GameState.Play);
     }
 
     void OpenRestartButton()

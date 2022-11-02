@@ -1,11 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 using System;
 
-public static class EventManager
+public static partial class EventManager
 {
+    // GameManager events
+    public static event Action OnBeginGame;
+    public static void Fire_OnBeginGame() { OnBeginGame?.Invoke(); }
+
+    public static event Action OnPlayGame;
+    public static void Fire_OnPlayGame() { OnPlayGame?.Invoke(); }
+
+    public static event Action<Transform> OnGameEnd;
+    public static void Fire_OnGameEnd(Transform transform) { OnGameEnd?.Invoke(transform); }
+
+    public static event Action OnMiniGame;
+    public static void Fire_OnMiniGame() { OnMiniGame?.Invoke(); }
+
+    public static event Action OnWin;
+    public static void Fire_OnWin() { OnWin?.Invoke(); }
+
+    public static event Action OnLose;
+    public static void Fire_OnLose() { OnLose?.Invoke(); }
+
+
+    //
     public static event Action OnStartMovement;
     public static void Fire_OnStartMovement(){ OnStartMovement?.Invoke(); }
 

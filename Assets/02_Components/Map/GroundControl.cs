@@ -8,14 +8,14 @@ public class GroundControl : MonoBehaviour
     {
         if (other.CompareTag(Tags.PlayerChild))
         {
-            Player.limitX =Mathf.Abs( other.transform.parent.transform.position.x);
+            Player.Instance.limitX =Mathf.Abs( other.transform.parent.transform.position.x);
         }
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag(Tags.PlayerChild))
         {
-            Player.limitX = 10;
+            Player.Instance.limitX = 10;
         }
     }
 }

@@ -13,7 +13,7 @@ public class Player : MonoSingleton<Player>
 
     public static int playerChildCount = 1;
 
-    public static bool forwardMove;
+    public bool forwardMove;
 
     float mouseX;
 
@@ -40,8 +40,6 @@ public class Player : MonoSingleton<Player>
         playerChildCount = 1;
 
         forwardMove = true;
-
-        EventManager.Fire_OnStopMovement();
     }
 
     private void Update()

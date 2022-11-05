@@ -111,8 +111,8 @@ public class GameManager : MonoSingleton<GameManager>
 
         if (StackController.playerChildAmount <= 0)
         {
-            EventManager.Fire_OnGameOver();
-            EventManager.Fire_OnStopMovement();
+            OnChangeGameState(GameState.Lose);
+            //EventManager.Fire_OnStopMovement();
 
         }
     }

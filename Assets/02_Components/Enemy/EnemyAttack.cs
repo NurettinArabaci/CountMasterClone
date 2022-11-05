@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
 {
     GameObject parent;
-    Enemy enemyScript;
+    EnemyArea enemyScript;
 
     Collider enemyColl;
 
@@ -14,7 +14,7 @@ public class EnemyAttack : MonoBehaviour
     private void Awake()
     {
         parent = transform.parent.gameObject;
-        enemyScript = parent.GetComponent<Enemy>();
+        enemyScript = parent.GetComponent<EnemyArea>();
         enemyColl = GetComponent<CapsuleCollider>();
         mesh= transform.GetChild(0).GetComponent<SkinnedMeshRenderer>();
     }
@@ -52,7 +52,10 @@ public class EnemyAttack : MonoBehaviour
             enemyScript.circle.SetBool(AnimConst.enemyFinish, true);
 
             Destroy(parent.gameObject, 0.5f);
-            
+
+            Player.Instance.speed = 15;
+            Player.Instance.xSpeed = 15f;
+
         }
     }
    

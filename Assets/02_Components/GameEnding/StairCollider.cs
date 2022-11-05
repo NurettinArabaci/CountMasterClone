@@ -13,9 +13,9 @@ public class StairCollider : MonoBehaviour
             if (BuildStair.stairId<=0)
             {
                 EventManager.Fire_OnStopMovement();
-                EventManager.NextLevel();
+                GameStateEvent.Fire_OnChangeGameState(GameState.Win);
             }
-            Player.forwardMove = false;
+            //Player.forwardMove = false;
         }
     }
 }

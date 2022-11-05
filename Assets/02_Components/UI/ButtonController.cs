@@ -28,18 +28,6 @@ public class ButtonController : MonoBehaviour
 
     }
 
-    private void OnEnable()
-    {
-        EventManager.OnGameOver += OpenRestartButton;
-
-        EventManager.LevelCompleted += OpenNextButton;
-    }
-    private void OnDisable()
-    {
-        EventManager.OnGameOver -= OpenRestartButton;
-
-        EventManager.LevelCompleted -= OpenNextButton;
-    }
 
     public void PlayButton()
     {
@@ -49,28 +37,17 @@ public class ButtonController : MonoBehaviour
         GameStateEvent.Fire_OnChangeGameState(GameState.Play);
     }
 
-    void OpenRestartButton()
-    {
-        restartBut.gameObject.SetActive(true);
-    }
-
     public void RestartButton()
     {
         restartBut.gameObject.SetActive(false);
-        LevelController.Instance.RestartLevelButton();
+        LevelManager.Instance.LevelCreated();
 
-    }
-
-    void OpenNextButton()
-    {
-        nextLevelBut.gameObject.SetActive(true);
-        scoreParent.SetActive(false);
     }
 
     public void NextLevelButton()
     {
-        LevelController.Instance.NextLevelButton();
         nextLevelBut.gameObject.SetActive(false);
+        LevelManager.Instance.LevelCreated();
     }
 
     public void ButtonReference()

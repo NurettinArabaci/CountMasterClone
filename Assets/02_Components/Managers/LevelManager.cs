@@ -6,7 +6,11 @@ public class LevelManager : MonoSingleton<LevelManager>
 {
     public List<GameObject> Levels = new List<GameObject>();
 
-    public int levelCount;
+    public int LevelCount
+    {
+        get { return PlayerPrefs.GetInt("Level", 0); }
+        set { PlayerPrefs.SetInt("Level", value); }
+    }
 
     protected override void Awake()
     {
@@ -24,10 +28,23 @@ public class LevelManager : MonoSingleton<LevelManager>
         LevelCreated();
     }
 
+    private void OnEnable()
+    {
+        EventManager.OnWin += OnLevelComplete;
+
+    }
+
+    void OnLevelComplete()
+    {
+        LevelCount++;
+
+    }
+
     public void LevelCreated()
     {
         ResetLevels();
-        Instantiate(Levels[levelCount-1], transform);
+        Instantiate(Levels[LevelCount % Levels.Count],transform);
+        GameStateEvent.Fire_OnChangeGameState(GameState.Begin);
     }
 
     void ResetLevels()
@@ -36,11 +53,17 @@ public class LevelManager : MonoSingleton<LevelManager>
         {
             for (int i = 0; i < transform.childCount; i++)
             {
-                Destroy(transform.GetChild(i));
+                Destroy(transform.GetChild(i).gameObject);
             }
         }
 
     }
+
+    private void OnDisable()
+    {
+        EventManager.OnWin -= OnLevelComplete;
+    }
+
 
 
 }

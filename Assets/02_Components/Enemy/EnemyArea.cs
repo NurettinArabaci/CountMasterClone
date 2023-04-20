@@ -6,13 +6,13 @@ using TMPro;
 
 public class EnemyArea : MonoBehaviour
 {
-    [HideInInspector] public int enemyCount;
+    private int enemyCount;
 
-    [HideInInspector] public TextMeshProUGUI enemyText;
+    [SerializeField] private TextMeshProUGUI enemyText;
 
-    [HideInInspector] public Animator circle;
+    [SerializeField] private Transform canvas;
 
-    [HideInInspector] public Transform canvas;
+    [SerializeField] private Animator circle;
 
     Collider mColl;
 
@@ -29,30 +29,50 @@ public class EnemyArea : MonoBehaviour
     {
         if (other.CompareTag(Tags.PlayerChild))
         {
+            //EventManager.Fire_OnEnemyArea;
             Player.Instance.speed = 3;
             Player.Instance.xSpeed = 2f;
             mColl.enabled = false;
+            ChildrenMove();
 
-            FollowPlayer();
+
+
         }
     }
 
-    void FollowPlayer()
+    
+
+    public void AllEnemiesDied()
     {
-        for (int i = 0; i < enemyCount; i++)
+        enemyCount--;
+        enemyText.SetText(enemyCount.ToString());
+
+        if (enemyCount <= 0)
         {
-            transform.GetChild(i).GetComponent<NavMeshAgent>().speed = 15;
-            transform.GetChild(i).GetComponent<Animator>().SetBool(AnimConst.enemyRun, true);
+            EventManager.Fire_OnStartMovement();
+
+            circle.SetBool(AnimConst.enemyFinish, true);
+
+            Destroy(gameObject, 0.5f);
+
+            Player.Instance.speed = 15;
+            Player.Instance.xSpeed = 15f;
 
         }
+    }
+
+    void ChildrenMove()
+    {
+        foreach (var item in GetComponentsInChildren<Enemy>())
+        {
+            item.StartMove();
+        }
+
     }
 
     void References()
     {
         mColl = GetComponent<BoxCollider>();
         enemyCount = transform.childCount - 1;
-        canvas = transform.GetChild(enemyCount);
-        enemyText = canvas.GetChild(1).GetComponent<TextMeshProUGUI>();
-        circle = canvas.GetChild(2).GetComponent<Animator>();
     }
 }

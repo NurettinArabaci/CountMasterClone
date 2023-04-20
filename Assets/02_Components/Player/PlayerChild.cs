@@ -1,7 +1,6 @@
-
 using UnityEngine;
 
-public class PlayerChild : MonoBehaviour
+public class PlayerChild : MonoBehaviour, IDamageable
 {
     Animator anim;
 
@@ -16,7 +15,6 @@ public class PlayerChild : MonoBehaviour
     
     private void OnEnable()
     {
-        dieFx.Pause(true);
         EventManager.OnStartMovement += MovementChild;
         EventManager.OnStopMovement += StopMoveChild;
     }
@@ -33,9 +31,14 @@ public class PlayerChild : MonoBehaviour
 
     }
 
-    void StopMoveChild()
+    public void StopMoveChild()
     {
         anim.SetBool(AnimConst.isRun, false);
     }
 
+    public void TakeDamage()
+    {
+        ParticleManager.Instance.GetSpawnParticle(Tags.Player, transform.position);
+        ObjectPooling.Instance.BackToPool(this.gameObject, Tags.PlayerChild);
+    }
 }

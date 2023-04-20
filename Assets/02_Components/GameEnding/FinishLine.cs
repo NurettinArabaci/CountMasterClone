@@ -11,6 +11,8 @@ public class FinishLine : MonoBehaviour
         {
             EventManager.Fire_OnFinishArea();
 
+            GameStateEvent.Fire_OnChangeGameState(GameState.Minigame);
+
             ScoreIncrease();
 
             other.transform.GetChild(0).gameObject.SetActive(false);

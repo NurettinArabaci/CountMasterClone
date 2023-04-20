@@ -1,28 +1,22 @@
 using System.Collections;
 using UnityEngine;
 
-public class Obstacle : MonoBehaviour
+public class Obstacle : MonoBehaviour,IAttackable
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(Tags.PlayerChild))
+        if (other.TryGetComponent(out IDamageable damageable))
         {
-            StartCoroutine(DeathPlayer(other.gameObject));
-
-            other.GetComponent<CapsuleCollider>().enabled = false;
-            other.transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = false;
-            other.GetComponent<ParticleSystem>().Play(true);
- 
             
-
+            Attack(damageable);
         }
     }
 
-    IEnumerator DeathPlayer(GameObject go)
+    public void Attack(IDamageable damageable)
     {
         GameManager.Instance.DecreasePlayerAmount();
-        yield return new WaitForSecondsRealtime(0.5f);
-        
-        ObjectPooling.Instance.BackToPool(go, Tags.PlayerChild);
+        damageable.TakeDamage();
     }
+
+    
 }

@@ -54,8 +54,7 @@ public class ObjectPooling : MonoBehaviour
             obj.SetActive(false);
             poolDict[tag].Enqueue(obj);
             objectSpawn.SetActive(true);
-            objectSpawn.transform.position = pos;
-            objectSpawn.transform.rotation = rot;
+            objectSpawn.transform.SetPositionAndRotation(pos, rot);
             objectSpawn.tag = Tags.PlayerChild;
 
             return objectSpawn;
@@ -65,8 +64,7 @@ public class ObjectPooling : MonoBehaviour
         {
             GameObject objectSpawn = poolDict[tag].Dequeue();
             objectSpawn.SetActive(true);
-            objectSpawn.transform.position = pos;
-            objectSpawn.transform.rotation = rot;
+            objectSpawn.transform.SetPositionAndRotation(pos, rot);
             objectSpawn.tag = Tags.PlayerChild;
 
             return objectSpawn;
@@ -77,8 +75,22 @@ public class ObjectPooling : MonoBehaviour
     {
         objectToEnqueu.SetActive(false);
         poolDict[tag].Enqueue(objectToEnqueu);
-        objectToEnqueu.tag = "Untagged";
 
     }
+
+    public void BackToPool(GameObject objectToEnqueu, string tag,float delay)
+    {
+        StartCoroutine(BackToPoolCR(objectToEnqueu, tag, delay));
+
+    }
+
+    IEnumerator BackToPoolCR(GameObject objectToEnqueu, string tag,float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        objectToEnqueu.SetActive(false);
+        poolDict[tag].Enqueue(objectToEnqueu);
+
+    }
+
 
 }

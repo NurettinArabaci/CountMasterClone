@@ -11,13 +11,7 @@ public class Player : MonoSingleton<Player>
     public float xSpeed = 10f;
     public float limitX = 10f;
 
-    public static int playerChildCount = 1;
-
-    public bool forwardMove;
-
-    float mouseX;
-
-
+    private float mouseX;
 
     protected override void Awake()
     {
@@ -35,16 +29,10 @@ public class Player : MonoSingleton<Player>
         EventManager.OnFinishArea -= OnFinishArea;
     }
 
-    private void Start()
-    {
-        playerChildCount = 1;
-
-        forwardMove = true;
-    }
-
+   
     private void Update()
     {
-        if (GameManager.Instance.gameState != GameState.Play) return;
+        if (GameManager.Instance.gameState != GameState.Play && GameManager.Instance.gameState != GameState.Minigame) return;
 
         SwerveMovement();
     }
@@ -53,23 +41,28 @@ public class Player : MonoSingleton<Player>
     {
         xSpeed = 0;
         StartCoroutine(TweenMove());
-        Invoke(nameof(BuildingStair), 0.5f);
     }
 
     void SwerveMovement()
     {
         
         pos += Vector3.forward*speed * Time.deltaTime;
-        
-        if (Input.GetMouseButton(0))
+
+        if (GameManager.Instance.gameState != GameState.Minigame)
         {
-            mouseX = Input.GetAxis("Mouse X");
+            if (Input.GetMouseButton(0))
+            {
 
-            pos += Vector3.right * mouseX * xSpeed * Time.deltaTime * 10;
-               
+
+                mouseX = Input.GetAxis("Mouse X");
+
+                pos += Vector3.right * mouseX * xSpeed * Time.deltaTime * 10;
+
+            }
+
+            pos = new Vector3(Mathf.Clamp(pos.x, -limitX, limitX), pos.y, pos.z);
+            
         }
-
-        pos = new Vector3(Mathf.Clamp(pos.x, -limitX, limitX), pos.y, pos.z);
         transform.position = pos;
     }
 
@@ -90,9 +83,5 @@ public class Player : MonoSingleton<Player>
 
     }
 
-    void BuildingStair()
-    {
-        GetComponent<BuildStair>().Build();
-    }
     
 }

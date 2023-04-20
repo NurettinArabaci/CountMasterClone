@@ -3,7 +3,6 @@ using UnityEngine;
 public class GroundControl : MonoBehaviour
 {
    
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(Tags.PlayerChild))
@@ -18,4 +17,5 @@ public class GroundControl : MonoBehaviour
             Player.Instance.limitX = 10;
         }
     }
+    
 }
